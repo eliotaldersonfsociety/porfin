@@ -1,8 +1,7 @@
-// next.config.ts
-const nextConfig = {
-  experimental: {
-    serverActions: false,
-  }
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
 };
 
 export default nextConfig;
