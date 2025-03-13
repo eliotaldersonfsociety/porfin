@@ -1,7 +1,7 @@
 // next.config.ts
 const nextConfig = {
   experimental: {
-    //serverActions: {} // Configuración en formato de objeto
+    serverActions: false,
   }
 };
 
