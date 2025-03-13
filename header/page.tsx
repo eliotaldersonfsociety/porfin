@@ -8,17 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SearchBar } from "./search-bar";
 import { UserMenu } from "./user-menu";
+import { Product } from "@/types/user"; // Importa el tipo Product desde el archivo correcto
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-}
 
 interface HeaderProps {
+  cart: Product[];
   clearCart: () => void;
   addToCart: (item: Product) => void;
+  totalPrice: number;
 }
+
 
 export function Header({ clearCart, addToCart }: HeaderProps) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
