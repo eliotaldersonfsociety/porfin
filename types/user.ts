@@ -9,3 +9,11 @@ export interface User {
   saldo?: number;        // Saldo del usuario, puede estar en la respuesta de login o al consultar
   isAdmin?: boolean;     // Indicar si el usuario es administrador, opcional
 }
+
+// types.ts
+export interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+}
