@@ -2,13 +2,7 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Header } from "@/header/page"; // Importa el Header desde la carpeta correcta
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-}
+import { Product } from "@/types/user"; // Importa el tipo Product desde el archivo correcto
 
 const products: Product[] = [
   { id: 1, name: "Product 1", price: 29.99, image: "/path/to/image1.jpg" },
