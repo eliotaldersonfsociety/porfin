@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { Header } from "@/header/page"; // Importa el Header desde la carpeta correcta
+import { Header } from "@/components/header/page"; // Importa el Header desde la carpeta correcta
 import { Product } from "@/types/user"; // Importa el tipo Product desde el archivo correcto
 
 const products: Product[] = [
