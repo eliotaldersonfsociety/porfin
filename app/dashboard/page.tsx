@@ -86,7 +86,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-4">
-      <Header clearCart={() => {}} addToCart={() => {}} />
+      <Header cart={[]} clearCart={() => {}} addToCart={() => {}} totalPrice={0} />
       {isLoading ? (
         // **Versión en carga con Skeleton**
         <>
