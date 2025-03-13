@@ -17,3 +17,19 @@ export interface Product {
   price: number;
   image: string;
 }
+
+export interface UserData {
+  id: number;
+  name: string;
+  lastname: string;
+  email: string;
+  isAdmin: number;
+}
+
+export interface Purchase {
+  id: number;
+  created_at: string;
+  price: number;
+  status: string;
+  item_name: string;
+}
