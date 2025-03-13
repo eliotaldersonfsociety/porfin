@@ -1,10 +1,7 @@
-import type { NextConfig } from 'next';
+import { defineConfig } from 'next';
 
-const nextConfig: NextConfig = {
-  reactStrictMode: true,
+export default defineConfig({
   experimental: {
-    serverActions: true, // Si usas server actions en Next.js 15
-  },
-};
-
-export default nextConfig;
+    serverActions: {} // Configuración en formato de objeto
+  }
+});
