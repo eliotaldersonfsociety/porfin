@@ -4,24 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CreditCard, ShoppingCart, User } from "lucide-react";
-import { Header } from "../../header/page"; // Asegúrate de que la ruta sea correcta
+import { CreditCard, ShoppingCart, User as UserIcon } from "lucide-react";
+import { Header } from "@/header/page"; // Asegúrate de que la ruta sea correcta
 
-interface UserData {
-  id: number;
-  name: string;
-  lastname: string;
-  email: string;
-  isAdmin: number;
-}
-
-interface Purchase {
-  id: number;
-  created_at: string;
-  price: number;
-  status: string;
-  item_name: string;
-}
+// Importa los tipos desde tu archivo de tipos
+import type { UserData, Purchase } from "@/types/user";
 
 export default function DashboardPage() {
   const [user, setUser] = useState<UserData | null>(null);
@@ -55,7 +42,7 @@ export default function DashboardPage() {
 
         // Obtener el número total de compras
         const purchaseCountResponse = await fetch("/api/purchases/count", {
-          method: 'GET', // Asegúrate de que sea un GET
+          method: 'GET',
           credentials: "include"
         });
         if (!purchaseCountResponse.ok) throw new Error("Error al obtener el número de compras");
@@ -66,13 +53,13 @@ export default function DashboardPage() {
         const purchasesResponse = await fetch("/api/purchases", { credentials: "include" });
         if (!purchasesResponse.ok) throw new Error("Error al obtener compras");
         const purchasesData = await purchasesResponse.json();
-        console.log("Purchases Data:", purchasesData); // Verificar los datos recibidos
+        console.log("Purchases Data:", purchasesData);
 
         // Asegurarse de que las compras sean un array
         if (Array.isArray(purchasesData.purchases)) {
           setPurchases(purchasesData.purchases);
         } else {
-          setPurchases([]); // Si no es un array, asignar un array vacío
+          setPurchases([]);
         }
       } catch (error) {
         console.error(error);
@@ -86,12 +73,17 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-4">
+      {/* Se le pasan las props requeridas al Header */}
       <Header cart={[]} clearCart={() => {}} addToCart={() => {}} totalPrice={0} />
       {isLoading ? (
-        // **Versión en carga con Skeleton**
+        // Versión en carga con Skeleton
         <>
-          <h1 className="text-2xl font-bold"><Skeleton className="h-8 w-48" /></h1>
-          <div className="text-muted-foreground"><Skeleton className="h-5 w-72" /></div>
+          <h1 className="text-2xl font-bold">
+            <Skeleton className="h-8 w-48" />
+          </h1>
+          <div className="text-muted-foreground">
+            <Skeleton className="h-5 w-72" />
+          </div>
           <div className="grid gap-4 md:grid-cols-3">
             {Array.from({ length: 3 }).map((_, i) => (
               <Card key={i}>
@@ -107,23 +99,33 @@ export default function DashboardPage() {
             ))}
           </div>
           <Card>
-            <CardHeader><Skeleton className="h-6 w-48" /></CardHeader>
+            <CardHeader>
+              <Skeleton className="h-6 w-48" />
+            </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse border border-gray-200">
                   <thead>
                     <tr>
                       {["Date", "Amount", "Status"].map((_, i) => (
-                        <th key={i} className="border p-2"><Skeleton className="h-5 w-24" /></th>
+                        <th key={i} className="border p-2">
+                          <Skeleton className="h-5 w-24" />
+                        </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {Array.from({ length: 5 }).map((_, i) => (
                       <tr key={i}>
-                        <td className="border p-2"><Skeleton className="h-5 w-24" /></td>
-                        <td className="border p-2"><Skeleton className="h-5 w-16" /></td>
-                        <td className="border p-2"><Skeleton className="h-5 w-20" /></td>
+                        <td className="border p-2">
+                          <Skeleton className="h-5 w-24" />
+                        </td>
+                        <td className="border p-2">
+                          <Skeleton className="h-5 w-16" />
+                        </td>
+                        <td className="border p-2">
+                          <Skeleton className="h-5 w-20" />
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -133,7 +135,7 @@ export default function DashboardPage() {
           </Card>
         </>
       ) : (
-        // **Versión con datos cargados**
+        // Versión con datos cargados
         <>
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <div className="text-muted-foreground">
@@ -143,7 +145,7 @@ export default function DashboardPage() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">Account</CardTitle>
-                <User className="h-4 w-4 text-muted-foreground" />
+                <UserIcon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
@@ -196,11 +198,12 @@ export default function DashboardPage() {
                   <tbody>
                     {Array.isArray(purchases) && purchases.length > 0 ? (
                       purchases.map((purchase) => {
-                        // Determinamos el color basado en el estado
                         const statusClass =
-                          purchase.status === "por enviar" ? "text-red-500" :
-                          purchase.status === "enviado" ? "text-green-500" :
-                          "text-gray-500";
+                          purchase.status === "por enviar"
+                            ? "text-red-500"
+                            : purchase.status === "enviado"
+                            ? "text-green-500"
+                            : "text-gray-500";
 
                         return (
                           <tr key={purchase.id}>
@@ -216,7 +219,9 @@ export default function DashboardPage() {
                       })
                     ) : (
                       <tr>
-                        <td colSpan={4} className="text-center p-2">No purchases found</td>
+                        <td colSpan={4} className="text-center p-2">
+                          No purchases found
+                        </td>
                       </tr>
                     )}
                   </tbody>
