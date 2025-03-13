@@ -10,14 +10,12 @@ import { SearchBar } from "./search-bar";
 import { UserMenu } from "./user-menu";
 import { Product } from "@/types/user"; // Importa el tipo Product desde el archivo correcto
 
-
 interface HeaderProps {
   cart: Product[];
   clearCart: () => void;
   addToCart: (item: Product) => void;
   totalPrice: number;
 }
-
 
 export function Header({ clearCart, addToCart }: HeaderProps) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -130,16 +128,16 @@ export function Header({ clearCart, addToCart }: HeaderProps) {
                     Total: ${totalPrice.toFixed(2)}
                   </h3>
                   {/* Botón para vaciar el carrito */}
-                  <Button 
-                    variant="destructive" 
+                  <Button
+                    variant="destructive"
                     className="w-full mt-4"
                     onClick={clearCartHandler}
                   >
                     Vaciar Carrito
                   </Button>
                   {/* Botón para proceder a la compra */}
-                  <Button 
-                    variant="checkout" 
+                  <Button
+                    variant="checkout"
                     className="w-full mt-2 !bg-green-600 hover:!bg-green-700 text-white"
                     onClick={() => window.location.href = "/checkout/"}
                   >
