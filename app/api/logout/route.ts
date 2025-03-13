@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import db from '@/lib/db';
+import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
-  const refreshToken = request.cookies.get('refreshToken')?.value;
+  const cookieStore = await cookies();
+  const refreshToken = cookieStore.get('refreshToken')?.value;
 
   if (!refreshToken) {
     return NextResponse.json(

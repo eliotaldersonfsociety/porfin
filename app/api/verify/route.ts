@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET!;
 
 export async function POST(request: Request) {
-  const accessToken = request.cookies.get('accessToken')?.value;
+  const cookies = request.headers.get('cookie');
+  const accessToken = cookies?.split('; ').find(cookie => cookie.startsWith('accessToken='))?.split('=')[1];
 
   if (!accessToken) {
     return NextResponse.json(

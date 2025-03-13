@@ -31,7 +31,16 @@ export async function POST(request: Request) {
       );
     }
 
-    const isValidPassword = await bcrypt.compare(password, user.rows[0].password);
+    const userPassword = String(user.rows[0].password);
+
+    if (!userPassword) {
+      return NextResponse.json(
+        { message: 'Contraseña no válida' },
+        { status: 400 }
+      );
+    }
+
+    const isValidPassword = await bcrypt.compare(password, userPassword);
 
     if (!isValidPassword) {
       return NextResponse.json(
@@ -58,7 +67,15 @@ export async function POST(request: Request) {
     });
 
     const response = NextResponse.json(
-      { message: 'Inicio de sesión exitoso' },
+      {
+        message: 'Inicio de sesión exitoso',
+        token: accessToken,
+        user: {
+          name: user.rows[0].name,
+          email: user.rows[0].email,
+          avatar: user.rows[0].avatar,
+        },
+      },
       { status: 200 }
     );
 
