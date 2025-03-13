@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CreditCard, ShoppingCart, User as UserIcon } from "lucide-react";
-import { Header } from "@/header/page"; // Asegúrate de que la ruta sea correcta
+import { Header } from "@/components/header/page"; // Asegúrate de que la ruta sea correcta
 
 // Importa los tipos desde tu archivo de tipos
 import type { UserData, Purchase } from "@/types/user";
